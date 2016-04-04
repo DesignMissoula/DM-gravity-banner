@@ -6,7 +6,7 @@ Description: Adds custom banner before gravity forms.
 Plugin URI: https://github.com/DesignMissoula/DM-gravity-banner
 Author: Bradford Knowlton
 Author URI: http://bradknowlton.com
-Version: 1.2.2
+Version: 1.2.3
 License: GPL2
 Text Domain: hwd
 Domain Path: /languages
