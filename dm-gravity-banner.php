@@ -6,7 +6,7 @@ Description: Adds custom banner before gravity forms.
 Plugin URI: https://github.com/DesignMissoula/DM-gravity-banner
 Author: Bradford Knowlton
 Author URI: http://bradknowlton.com
-Version: 1.2.3
+Version: 2.0.1
 License: GPL2
 Text Domain: hwd
 Domain Path: /languages
@@ -39,7 +39,9 @@ Requires WP: 4.4
 
 add_filter( 'gform_form_tag', 'form_tag', 10, 2 );
 function form_tag( $form_tag, $form ) {
- 		
+    
+    $form_tag = ' <!-- Start of Gravity Banner -->'.get_option( 'my-option-name', true ).' <!-- End of Gravity Banner -->'.$form_tag;
+    
     return $form_tag;
 }
 
@@ -52,7 +54,7 @@ function my_settings_init(){
  
     /* Register Settings */
     register_setting(
-        'reading',             // Options group
+        'media',             // Options group
         'my-option-name',      // Option name/database
         'my_settings_sanitize' // sanitize callback function
     );
@@ -60,15 +62,15 @@ function my_settings_init(){
     /* Create settings section */
     add_settings_section(
         'my-section-id',                   // Section ID
-        'My Additional Reading Settings',  // Section title
+        'Gravity Form Banner Settings',  // Section title
         'my_settings_section_description', // Section callback function
-        'reading'                          // Settings page slug
+        'media'                          // Settings page slug
     );
  
     /* Create settings field */
     add_settings_field(
         'my-settings-field-id',       // Field ID
-        'Droid Identification',       // Field title 
+        'Banner Code',       // Field title 
         'my_settings_field_callback', // Field callback function
         'media',                    // Settings page slug
         'my-section-id'               // Section ID
@@ -77,19 +79,19 @@ function my_settings_init(){
  
 /* Sanitize Callback Function */
 function my_settings_sanitize( $input ){
-    return isset( $input ) ? true : false;
+    return isset( $input ) ? $input : false;
 }
  
 /* Setting Section Description */
 function my_settings_section_description(){
-    echo wpautop( "This aren't the Settings you're looking for. Move along." );
+    echo wpautop( "Following Code appears at start of all Gravity Forms" );
 }
  
 /* Settings Field Callback */
 function my_settings_field_callback(){
     ?>
     <label for="droid-identification">
-        <input id="droid-identification" type="checkbox" value="1" name="my-option-name" <?php checked( get_option( 'my-option-name', true ) ); ?>> "You don't need to see Identification."
+        <textarea id="droid-identification" class="large-text code" name="my-option-name" width="100%" rows="6" ><?php echo get_option( 'my-option-name', true ); ?></textarea> <br/>Please use proper html.
     </label>
     <?php
 }
